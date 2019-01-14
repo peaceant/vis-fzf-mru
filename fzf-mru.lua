@@ -1,11 +1,12 @@
 local module = {}
-module.path = os.getenv('HOME') .. '/.mru'
+module.fzfmru_filepath = os.getenv('HOME') .. '/.mru'
 module.fzfmru_path = "fzf"
 module.fzfmru_args = ""
+module.fzfmru_history = 20
 
 function read_mru()
     local mru = {}
-    local f = io.open(module.path)
+    local f = io.open(module.fzfmru_filepath)
     if f == nil then return end
     for line in f:lines() do
         table.insert(mru, line)
@@ -26,13 +27,13 @@ function write_mru(win)
     -- check duplicate
     if file_path == mru[1] then return end
 
-    local f = io.open(module.path, 'w+')
+    local f = io.open(module.fzfmru_filepath, 'w+')
     if f == nil then return end
 
     table.insert(mru, 1, file_path)
 
     for i,k in ipairs(mru) do
-        if i > 20 then break end
+        if i > module.fzfmru_history then break end
         if i == 1 or k ~= file_path then
             f:write(string.format('%s\n', k))
         end
@@ -44,7 +45,7 @@ end
 vis.events.subscribe(vis.events.WIN_OPEN, write_mru)
 
 vis:command_register("fzfmru", function(argv, force, win, selection, range)
-    local command = "cat " .. module.path .. " | " .. module.fzfmru_path .. " " .. module.fzfmru_args .. " " .. table.concat(argv, " ")
+    local command = "cat " .. module.fzfmru_filepath .. " | " .. module.fzfmru_path .. " " .. module.fzfmru_args .. " " .. table.concat(argv, " ")
 
     local file = io.popen(command)
     local output = file:read()
