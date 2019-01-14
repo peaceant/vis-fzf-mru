@@ -5,12 +5,12 @@ module.fzfmru_args = ""
 
 function read_mru()
     local mru = {}
-	local f = io.open(module.path)
-	if f == nil then return end
-	for line in f:lines() do
+    local f = io.open(module.path)
+    if f == nil then return end
+    for line in f:lines() do
         table.insert(mru, line)
-	end
-	f:close()
+    end
+    f:close()
 
     return mru
 end
@@ -27,16 +27,16 @@ function write_mru(win)
     if file_path == mru[1] then return end
 
     local f = io.open(module.path, 'w+')
-	if f == nil then return end
+    if f == nil then return end
 
     table.insert(mru, 1, file_path)
 
-	for i,k in ipairs(mru) do
+    for i,k in ipairs(mru) do
         if i > 20 then break end
         if i == 1 or k ~= file_path then
             f:write(string.format('%s\n', k))
         end
-	end
+    end
 
     f:close()
 end
