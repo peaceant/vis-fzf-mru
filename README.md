@@ -26,9 +26,9 @@ plugin_vis_mru.fzfmru_filepath = "/Users/Username/.vismru"
 -- The number of most recently used files kept in history (default: 20)
 plugin_vis_mru.fzfmru_history = 10
 
--- Mapping configuration example
+-- Mapping configuration example (<Space>b)
 vis.events.subscribe(vis.events.INIT, function()
-	vis:command('map! normal <Space>b :fzfmru<Enter>')
+    vis:map(vis.modes.NORMAL, " b", ":fzfmru<Enter>")
 end)
 ```
 
