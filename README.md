@@ -1,6 +1,6 @@
-# Fuzzy find and open most recently used files in vis
+# Fuzzy find and open the most recently used files in vis
 
-Use [fzf](https://github.com/junegunn/fzf) to open most recently used files in [vis](https://github.com/martanne/vis).
+Use [fzf](https://github.com/junegunn/fzf) to open the most recently used files in [vis](https://github.com/martanne/vis).
 
 ## Usage
 
@@ -30,6 +30,15 @@ plugin_vis_mru.fzfmru_history = 10
 vis.events.subscribe(vis.events.INIT, function()
     vis:map(vis.modes.NORMAL, " b", ":fzfmru<Enter>")
 end)
+```
+
+## Tips
+
+Fuzzy find the most recently used files from the current directory hierarchy:
+
+```lua
+plugin_vis_mru = require('plugins/fzf-mru')
+plugin_vis_mru.fzfmru_path = 'grep "^'..os.getenv('PWD')..'" | fzf'
 ```
 
 ## Inspired by
